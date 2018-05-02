@@ -1,0 +1,7 @@
+F:\gitmy\WeChat\FrameWork\bin\Debug\FrameWork.dll
+F:\gitmy\WeChat\FrameWork\bin\Debug\FrameWork.pdb
+F:\gitmy\WeChat\FrameWork\obj\Debug\FrameWork.dll
+F:\gitmy\WeChat\FrameWork\obj\Debug\FrameWork.pdb
+F:\gitmy\WeChat\FrameWork\bin\Debug\Newtonsoft.Json.dll
+F:\gitmy\WeChat\FrameWork\bin\Debug\Newtonsoft.Json.xml
+F:\gitmy\WeChat\FrameWork\obj\Debug\FrameWork.csprojResolveAssemblyReference.cache

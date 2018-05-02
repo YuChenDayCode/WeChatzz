@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Content/js/jquery-3.3.1.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $.ajax('/Wx/One')
+                .done(function (data) {
+                    console.info(data);
+                });
+        })
+    </script>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>

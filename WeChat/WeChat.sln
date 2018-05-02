@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChat", "WeChat\WeChat.csproj", "{AD5386A7-CF61-4E6F-8289-19BD00684452}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrameWork", "FrameWork\FrameWork.csproj", "{1830F08E-956D-4FF9-8E20-B2BCFB1992C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD5386A7-CF61-4E6F-8289-19BD00684452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5386A7-CF61-4E6F-8289-19BD00684452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5386A7-CF61-4E6F-8289-19BD00684452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5386A7-CF61-4E6F-8289-19BD00684452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1830F08E-956D-4FF9-8E20-B2BCFB1992C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1830F08E-956D-4FF9-8E20-B2BCFB1992C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1830F08E-956D-4FF9-8E20-B2BCFB1992C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1830F08E-956D-4FF9-8E20-B2BCFB1992C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
