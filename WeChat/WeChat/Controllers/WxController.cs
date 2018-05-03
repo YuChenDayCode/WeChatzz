@@ -1,5 +1,6 @@
 ﻿using FrameWork;
 using FrameWork.WeChat;
+using System;
 using System.Configuration;
 using System.Web.Mvc;
 
@@ -8,24 +9,37 @@ namespace WeChat.Controllers
     public class WxController : Controller
     {
 
-      
+
         public ActionResult Index()
         {
-            string access_token = "1111";
-            Response.Write("access_token=" + access_token);
+            CheckToken();
             return View();
         }
 
         public JsonResult One()
         {
-            // string url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appSecret;
+            string aaa = Enum.GetName(typeof(ErrCode), 0);
 
             string aa = AccessTokenEx.AccessToken;
-
-
-            https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN
+            MsgOperate.SendMsgToUser("oYvF3wfb3OuIeRJn-WenX1yy-VZ8", "text", "Yes!");
 
             return Json(aa, JsonRequestBehavior.AllowGet);
+        }
+
+        public void CheckToken()
+        {
+            string Token = "testToken";
+
+            string echoString = Request.QueryString["echoStr"];
+            string signature = Request.QueryString["signature"];
+            string timestamp = Request.QueryString["timestamp"];
+            string nonce = Request.QueryString["nonce"];
+
+            if (!string.IsNullOrEmpty(echoString) && echoString == Token)
+            {
+                Response.Write(echoString);
+                Response.End();
+            }
         }
 
     }

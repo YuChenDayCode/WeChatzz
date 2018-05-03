@@ -41,7 +41,7 @@ namespace FrameWork.WeChat
         {
             string url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appSecret;
             string result = HttpHelp.Get(url);
-            if (result.Contains("errcode")) throw new Exception("获取失败！错误信息" + result);
+            if (result.Contains("errcode")) WeChatExtensions.ErrorMsg(result);
 
             XDocument xml = JsonConvert.DeserializeXNode(result, "root");
             XElement root = xml.Root;
