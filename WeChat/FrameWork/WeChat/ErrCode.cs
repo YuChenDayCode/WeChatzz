@@ -164,6 +164,35 @@ namespace FrameWork.WeChat
         查询起始值begin不合法 = 9001036
     }
 
+    public enum MsgType
+    {
+        [Description("文本")]
+        text,
+
+        [Description("图片")]
+        image,
+
+        [Description("语音")]
+        voice,
+
+        [Description("视频")]
+        video,
+
+        [Description("音乐")]
+        music,
+
+        [Description("图文，限制8条")]
+        news,
+        [Description("图文，限制8条")]
+        mpnews,
+
+        [Description("卡券")]
+        wxcard,
+
+        [Description("小程序")]
+        miniprogram
+    }
+
     public class ErrorCode
     {
         public string ReturnErrorMsg(string code)

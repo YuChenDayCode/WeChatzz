@@ -10,12 +10,11 @@ namespace FrameWork.WeChat
 {
     public static class WeChatExtensions
     {
-        public static void ErrorMsg(string errmsg)
+        public static string ErrorMsg(string errmsg)
         {
             ErrorModel model = JsonConvert.DeserializeObject<ErrorModel>(errmsg);
             string msg = new ErrorCode().ReturnErrorMsg(model.errcode);// Enum.GetName(typeof(ErrCode), model.errcode);
-            throw new Exception(msg + "。\n详情" + errmsg);
-
+            return msg + "。\n详情" + errmsg;
         }
     }
 }

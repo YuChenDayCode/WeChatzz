@@ -15,13 +15,13 @@ namespace FrameWork.WeChat
         /// <param name="user"></param>
         /// <param name="msgType"></param>
         /// <param name="msg"></param>
-        public static void SendMsgToUser(string user, string msgType, string msg)
+        public static string SendMsgToUser(string user, string msgType, string msg)
         {
             string url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + AccessTokenEx.AccessToken;
             object data = new { touser = user, msgtype = msgType, text = new { content = msg } };
             string msgs = HttpHelp.Post(url, JsonConvert.SerializeObject(data));
 
-            if (msgs.Contains("errcode")) WeChatExtensions.ErrorMsg(msgs);
+            return WeChatExtensions.ErrorMsg(msgs);
         }
 
     }
