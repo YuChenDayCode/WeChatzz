@@ -48,11 +48,13 @@
   <ItemGroup>
     <Compile Include="HttpHelp.cs" />
     <Compile Include="Model\ErrorModel.cs" />
+    <Compile Include="Model\XMLModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeChat\AccessTokenEx.cs" />
     <Compile Include="WeChat\ErrCode.cs" />
     <Compile Include="WeChat\MsgOperate.cs" />
     <Compile Include="WeChat\WeChatExtensions.cs" />
+    <Compile Include="WeChat\XmlEX.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

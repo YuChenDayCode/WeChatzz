@@ -16,12 +16,16 @@
             $.ajax('/Wx/One')
                 .done(function (data) {
                     console.info(data);
-                });
+                })
+            .fail(function (err) {
+                console.log(err);
+            });
         })
     </script>
 </head>
 <body>
     <div>
+        <h1>Succ Access</h1>
     </div>
 </body>
 </html>

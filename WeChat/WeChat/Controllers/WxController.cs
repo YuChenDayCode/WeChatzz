@@ -1,35 +1,52 @@
 ﻿using FrameWork;
+using FrameWork.Model;
 using FrameWork.WeChat;
 using System;
 using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace WeChat.Controllers
 {
     public class WxController : Controller
     {
-
+        [HttpGet]
         public ActionResult Index()
         {
-            string MethodType = Request.HttpMethod;
-            SendXX(MethodType + "\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
+            SendXX(Request.HttpMethod + "-Get\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
 
-            if (MethodType == "POST")
+            string echoString = Request.QueryString["echoStr"];
+            SendXX(echoString);
+            if (!string.IsNullOrEmpty(echoString))
             {
-                using (Stream stream = Request.InputStream)
-                {
-                    Byte[] postBytes = new Byte[stream.Length];
-                    stream.Read(postBytes, 0, (Int32)stream.Length);
-                    string postString = Encoding.UTF8.GetString(postBytes);
-                    SendXX("POST内容：" + postString);
-                    //Handle(postString);
-                }
+                Response.Write(echoString);
+                Response.End();
             }
-            else
-                CheckToken();
+            return View();
+        }
 
+
+        [HttpPost]
+        [ActionName("Index")]
+        public ActionResult IndexPost()
+        {
+            SendXX(Request.HttpMethod + "-Post\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
+            XDocument xml = XDocument.Load(Request.InputStream);
+            XMLModel model = XmlEX.ResolveXML(xml);
+            SendXX(model.ToString());
+
+         
+
+            //Stream stream = Request.InputStream;
+            //Byte[] postBytes = new Byte[stream.Length];
+            //stream.Read(postBytes, 0, (Int32)stream.Length);
+            //string postString = Encoding.UTF8.GetString(postBytes);
+            //if (postString.Contains("[text]"))
+            //{
+            //    SendXX("发送内容：" + model.ToString());
+            //}
             return View();
         }
 
@@ -43,21 +60,7 @@ namespace WeChat.Controllers
         }
 
 
-        public void CheckToken()
-        {
-            string Token = "testToken";
 
-            string echoString = Request.QueryString["echoStr"];
-            string signature = Request.QueryString["signature"];
-            string timestamp = Request.QueryString["timestamp"];
-            string nonce = Request.QueryString["nonce"];
-
-            if (!string.IsNullOrEmpty(echoString) && echoString == Token)
-            {
-                Response.Write(echoString);
-                Response.End();
-            }
-        }
 
         public string SendXX(string msg)
         {
