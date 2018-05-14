@@ -15,7 +15,7 @@ namespace WeChat.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            SendXX(Request.HttpMethod + "-Get\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
+            //SendXX(Request.HttpMethod + "-Get\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
 
             string echoString = Request.QueryString["echoStr"];
             SendXX(echoString);
@@ -32,13 +32,26 @@ namespace WeChat.Controllers
         [ActionName("Index")]
         public ActionResult IndexPost()
         {
-            SendXX(Request.HttpMethod + "-Post\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
+            //SendXX(Request.HttpMethod + "-Post\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
             XDocument xml = XDocument.Load(Request.InputStream);
             XMLModel model = XmlEX.ResolveXML(xml);
-            SendXX(model.ToString());
+            //SendXX(model.ToString());
 
-         
+            if (model == null) return View();
+            switch (model.MsgType)
+            {
+                case "event":
+                    //new WxProcess().TxtProcess(model.Content);
+                    break;
+                case "text":
+                    new WxProcess().TxtProcess(model.Content);
+                    break;
 
+                default:
+                    SendXX($"{ model.MsgType }类型");
+                    break;
+
+            }
             //Stream stream = Request.InputStream;
             //Byte[] postBytes = new Byte[stream.Length];
             //stream.Read(postBytes, 0, (Int32)stream.Length);
@@ -64,7 +77,7 @@ namespace WeChat.Controllers
 
         public string SendXX(string msg)
         {
-            return MsgOperate.SendMsgToUser("oYvF3wfb3OuIeRJn-WenX1yy-VZ8", MsgType.text.ToString(), msg);
+            return MsgOperate.SendMsgToUser( msg);
         }
 
     }

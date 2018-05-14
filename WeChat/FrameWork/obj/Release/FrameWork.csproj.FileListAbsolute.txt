@@ -11,3 +11,12 @@ F:\gitmy\WeChatzz\WeChat\FrameWork\bin\Release\Newtonsoft.Json.xml
 F:\gitmy\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.csprojResolveAssemblyReference.cache
 F:\gitmy\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.dll
 F:\gitmy\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.pdb
+D:\Coder\WeChatzz\WeChat\FrameWork\bin\Release\FrameWork.dll
+D:\Coder\WeChatzz\WeChat\FrameWork\bin\Release\FrameWork.pdb
+D:\Coder\WeChatzz\WeChat\FrameWork\bin\Release\Newtonsoft.Json.dll
+D:\Coder\WeChatzz\WeChat\FrameWork\bin\Release\Newtonsoft.Json.xml
+D:\Coder\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.csprojResolveAssemblyReference.cache
+D:\Coder\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.csproj.CoreCompileInputs.cache
+D:\Coder\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.csproj.CopyComplete
+D:\Coder\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.dll
+D:\Coder\WeChatzz\WeChat\FrameWork\obj\Release\FrameWork.pdb
