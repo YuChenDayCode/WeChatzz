@@ -1,12 +1,9 @@
 *.config
-<<<<<<< HEAD
 Debug/
 Release/
 obj/
-=======
 *.cache
 *.lock
 *.ide
 *.CopyComplete
 *.txt
->>>>>>> 1aab8e0d32b059b256ff5f6bc11759f32cdd603a
