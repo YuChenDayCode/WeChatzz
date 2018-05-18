@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrameWork.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,12 @@ namespace FrameWork.WeChat
 {
     public class WxProcess
     {
-        public void TxtProcess(string content)
+        public void TxtProcess(XMLModel model)
         {
-
-            string msg = Regex.Split(content, @"[ :我]")[1];
-            int time = GetTime(content);
-            Executor(time, msg);
+            string[] arr = Regex.Split(model.Content, @"[ :我]");
+            if (arr.Count() < 2) return;
+            string msg = arr[1];
+            Executor(GetTime(model.Content), msg, model.ToUserName);
             //线程池
         }
         public int GetTime(string str)
@@ -37,12 +38,18 @@ namespace FrameWork.WeChat
             }
             return ms;
         }
-        public void Executor(int num,string msg)
+
+        public void Executor(int num, string msg, string ToUserName)
         {
+            if (num <= 0) return;
+            DateTime time = DateTime.Now.AddMilliseconds(num);
             new Thread(delegate ()
             {
-                Thread.Sleep(num);
-                MsgOperate.SendMsgToUser(msg);
+                if (DateTime.Now == time)
+                {
+                    string sss = MsgOperate.SendMsgToUser("提醒：" + msg);
+                }
+                Thread.Sleep(900);
             })
             {
                 IsBackground = true

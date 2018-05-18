@@ -11,19 +11,21 @@ namespace FrameWork.Model
     {
         public string ToUserName { get; set; }
 
+        public string FromUserName { get; set; }
+
         private string _CreateTime;
         public string CreateTime
         {
             get { return _CreateTime; }
             set
             {
-                DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                double tt = double.Parse(value);
-                _CreateTime = dt.AddSeconds(tt).ToString("yyyy/MM/dd HH:mm:ss");
+                _CreateTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)).AddSeconds(double.Parse(value)).ToString("yyyy/MM/dd HH:mm:ss");
             }
         }
         public string MsgType { get; set; }
         public string Content { get; set; }
+        public string MsgId { get; set; }
+
         public string Event { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }

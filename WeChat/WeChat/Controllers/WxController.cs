@@ -18,7 +18,6 @@ namespace WeChat.Controllers
             //SendXX(Request.HttpMethod + "-Get\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
 
             string echoString = Request.QueryString["echoStr"];
-            SendXX(echoString);
             if (!string.IsNullOrEmpty(echoString))
             {
                 Response.Write(echoString);
@@ -32,25 +31,34 @@ namespace WeChat.Controllers
         [ActionName("Index")]
         public ActionResult IndexPost()
         {
+            Response.Write("success"); Response.End(); //避免三次请求
             //SendXX(Request.HttpMethod + "-Post\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
             XDocument xml = XDocument.Load(Request.InputStream);
             XMLModel model = XmlEX.ResolveXML(xml);
-            //SendXX(model.ToString());
 
-            if (model == null) return View();
-            switch (model.MsgType)
+            string msgs = xml.ToString();//.Replace("\r\n", "");
+
+            try
             {
-                case "event":
-                    //new WxProcess().TxtProcess(model.Content);
-                    break;
-                case "text":
-                    new WxProcess().TxtProcess(model.Content);
-                    break;
+                switch (model.MsgType)
+                {
+                    case "event":
+                        //SendXX(msgs);
+                        break;
+                    case "text":
+                        new WxProcess().TxtProcess(model);
+                        break;
 
-                default:
-                    SendXX($"{ model.MsgType }类型");
-                    break;
+                    default:
 
+                        break;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message + "=>" + ex.InnerException; SendXX(msg);
+                SendXX(msg);
             }
             //Stream stream = Request.InputStream;
             //Byte[] postBytes = new Byte[stream.Length];
@@ -77,7 +85,7 @@ namespace WeChat.Controllers
 
         public string SendXX(string msg)
         {
-            return MsgOperate.SendMsgToUser( msg);
+            return MsgOperate.SendMsgToUser(msg);
         }
 
     }
