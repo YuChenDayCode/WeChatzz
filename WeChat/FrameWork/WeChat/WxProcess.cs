@@ -1,6 +1,7 @@
 ﻿using FrameWork.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,22 +39,15 @@ namespace FrameWork.WeChat
             }
             return ms;
         }
-
         public void Executor(int num, string msg, string ToUserName)
         {
             if (num <= 0) return;
-            DateTime time = DateTime.Now.AddMilliseconds(num);
-            new Thread(delegate ()
+
+            new Thread(() =>
             {
-                if (DateTime.Now == time)
-                {
-                    string sss = MsgOperate.SendMsgToUser("提醒：" + msg);
-                }
-                Thread.Sleep(900);
-            })
-            {
-                IsBackground = true
-            }.Start();
+                Thread.Sleep(num);
+                string sss = MsgOperate.SendMsgToUser("提醒：" + msg);
+            }).Start();
 
         }
     }

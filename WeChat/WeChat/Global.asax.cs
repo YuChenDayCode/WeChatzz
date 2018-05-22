@@ -24,7 +24,7 @@ namespace WeChat
                     if (DateTime.Now.Hour == 20 && DateTime.Now.Minute == 1)
                     {
                         string isWork = HttpHelp.Get("http://tool.bitefu.net/jiari/?d=" + DateTime.Now.ToString("yyyyMMdd"));
-                        if (isWork == "0") MsgOperate.SendMsgToUser("日报写了吗！！\n\n日报写了吗！！\n\n日报写了吗！！");
+                        if (isWork == "0") MsgOperate.SendMsgToUser("日报写了吗！！ \n\n日报写了吗！！ \n\n日报写了吗！！ ");
                     }
                 }
             })

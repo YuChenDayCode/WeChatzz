@@ -35,7 +35,7 @@ namespace WeChat.Controllers
             //SendXX(Request.HttpMethod + "-Post\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
             XDocument xml = XDocument.Load(Request.InputStream);
             XMLModel model = XmlEX.ResolveXML(xml);
-
+            var aaaab = BaseD.UserList;
             string msgs = xml.ToString();//.Replace("\r\n", "");
 
             try
@@ -73,7 +73,7 @@ namespace WeChat.Controllers
 
         public JsonResult One()
         {
-            string msg = AccessTokenEx.AccessToken + "\n";
+            string msg = BaseD.AccessToken + "\n";
             //string aa = AccessTokenEx.AccessToken;
             // msg = MsgOperate.SendMsgToUser("oYvF3wfb3OuIeRJn-WenX1yy-VZ8", "text", "Yes!");
 

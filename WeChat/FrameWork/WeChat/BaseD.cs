@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Web.Script.Serialization;
 using System.Xml.Linq;
 
 namespace FrameWork.WeChat
@@ -8,7 +11,7 @@ namespace FrameWork.WeChat
     /// <summary>
     /// AccessToken 衍生类
     /// </summary>
-    public class AccessTokenEx
+    public class BaseD
     {
         /// <summary>
         /// 有效时间
@@ -19,6 +22,7 @@ namespace FrameWork.WeChat
         private static string appSecret = ConfigurationManager.AppSettings["appSecret"];
 
         private static string _AccessToken;
+
 
         public static string AccessToken
         {
@@ -77,6 +81,38 @@ namespace FrameWork.WeChat
             }
             return false;
         }
+
+
+
+
+        private static List<string> _UserList;
+        public static List<string> UserList
+        {
+            get
+            {
+                _UserList = GetUserList();
+                return _UserList;
+            }
+        }
+        public static List<string> GetUserList()
+        {
+            string url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + BaseD.AccessToken + "&next_openid=";
+            string result = HttpHelp.Get(url);
+            if (result.Contains("errcode")) WeChatExtensions.ErrorMsg(result);
+
+            var obj = (Dictionary<string, Object>)new JavaScriptSerializer().DeserializeObject(result);
+            var objs = JsonConvert.DeserializeObject(result);
+            XDocument xml = JsonConvert.DeserializeXNode(result, "root");
+            XElement root = xml.Root;
+            if (root != null)
+            {
+                XElement access_token = root.Element("data");
+                if (access_token != null)
+                    return null;
+            }
+            return null;
+        }
+
 
     }
 }

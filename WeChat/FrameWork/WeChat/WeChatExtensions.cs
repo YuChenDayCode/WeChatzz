@@ -16,5 +16,7 @@ namespace FrameWork.WeChat
             string msg = new ErrorCode().ReturnErrorMsg(model.errcode);// Enum.GetName(typeof(ErrCode), model.errcode);
             return msg + "。\n详情" + errmsg;
         }
+
+       
     }
 }
