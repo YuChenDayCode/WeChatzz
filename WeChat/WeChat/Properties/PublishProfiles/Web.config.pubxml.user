@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/FrameWork.dll">
-      <publishTime>05/22/2018 17:30:26</publishTime>
+      <publishTime>08/01/2018 15:39:06</publishTime>
     </File>
     <File Include="bin/FrameWork.pdb">
       <publishTime>05/14/2018 23:30:30</publishTime>
@@ -79,7 +79,7 @@
       <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/WeChat.dll">
-      <publishTime>05/22/2018 17:30:29</publishTime>
+      <publishTime>08/01/2018 15:46:09</publishTime>
     </File>
     <File Include="bin/WeChat.pdb">
       <publishTime>05/14/2018 23:33:15</publishTime>

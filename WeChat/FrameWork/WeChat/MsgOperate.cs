@@ -20,11 +20,12 @@ namespace FrameWork.WeChat
         {
             string url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + BaseD.AccessToken;
             object xml = new { touser = user, msgtype = msgType, text = new { content = msg } };
-            string msgs = HttpHelp.Post(url, JsonConvert.SerializeObject(xml));
-
-            return WeChatExtensions.ErrorMsg(msgs);
+            string msgs = Task.Run(() => HttpHelp.Post(url, JsonConvert.SerializeObject(xml))).Result;
+            string log = WeChatExtensions.ErrorMsg(msgs);
+            Common.WriteLog($"消息发送回执：{log}");
+            return log;
         }
 
-      
+
     }
 }

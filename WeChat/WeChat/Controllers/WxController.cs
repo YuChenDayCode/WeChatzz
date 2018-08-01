@@ -5,6 +5,7 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Web.Mvc;
 using System.Xml.Linq;
 
@@ -23,9 +24,11 @@ namespace WeChat.Controllers
                 Response.Write(echoString);
                 Response.End();
             }
+
+         
+
             return View();
         }
-
 
         [HttpPost]
         [ActionName("Index")]

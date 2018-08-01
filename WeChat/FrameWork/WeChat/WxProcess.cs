@@ -17,7 +17,7 @@ namespace FrameWork.WeChat
             string[] arr = Regex.Split(model.Content, @"[ :我]");
             if (arr.Count() < 2) return;
             string msg = arr[1];
-            Executor(GetTime(model.Content), msg, model.ToUserName);
+            Executor(GetTime(model.Content), msg, model.FromUserName);
             //线程池
         }
         public int GetTime(string str)
@@ -46,7 +46,7 @@ namespace FrameWork.WeChat
             new Thread(() =>
             {
                 Thread.Sleep(num);
-                string sss = MsgOperate.SendMsgToUser("提醒：" + msg);
+                string sss = MsgOperate.SendMsgToUser("提醒：" + msg, ToUserName);
             }).Start();
 
         }

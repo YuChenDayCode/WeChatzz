@@ -9,8 +9,14 @@ namespace FrameWork.Model
 {
     public class XMLModel
     {
+        /// <summary>
+        /// 接收人
+        /// </summary>
         public string ToUserName { get; set; }
 
+        /// <summary>
+        /// 发送人
+        /// </summary>
         public string FromUserName { get; set; }
 
         private string _CreateTime;
@@ -34,6 +40,8 @@ namespace FrameWork.Model
 
         public override string ToString()
         {
+            if (this.MsgType == "event" && this.Event == "LOCATION")
+                return $"{this.Latitude},{this.Longitude}";
             return $"{this.CreateTime }\n 接收者：{this.ToUserName} \n 消息类型：{   Enum.GetName(typeof(MsgType), this.MsgType) } \n 消息内容：{ this.Content}";
         }
 
