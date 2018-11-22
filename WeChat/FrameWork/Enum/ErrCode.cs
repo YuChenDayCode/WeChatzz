@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace FrameWork.WeChat
 {
+
     public enum ErrCode
     {
         请求成功 = 0,
