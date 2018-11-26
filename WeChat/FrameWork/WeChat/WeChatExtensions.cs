@@ -13,7 +13,7 @@ namespace FrameWork.WeChat
         public static string ErrorMsg(string errmsg)
         {
             ErrorModel model = JsonConvert.DeserializeObject<ErrorModel>(errmsg);
-            string msg = new ErrorCode().ReturnErrorMsg(model.errcode);// Enum.GetName(typeof(ErrCode), model.errcode);
+            string msg = ErrorCode.ReturnErrorMsg(model.errcode);// Enum.GetName(typeof(ErrCode), model.errcode);
             return msg + "。\n详情" + errmsg;
         }
 

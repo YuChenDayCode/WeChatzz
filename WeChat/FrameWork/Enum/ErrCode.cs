@@ -194,9 +194,9 @@ namespace FrameWork.WeChat
         miniprogram
     }
 
-    public class ErrorCode
+    public static class ErrorCode
     {
-        public string ReturnErrorMsg(string code)
+        public static string ReturnErrorMsg(string code)
         {
             switch (code)
             {

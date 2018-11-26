@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FrameWork.WeChat
-{
+{ 
     public class MsgOperate
     {
         /// <summary>
@@ -22,7 +22,7 @@ namespace FrameWork.WeChat
             object xml = new { touser = user, msgtype = msgType, text = new { content = msg } };
             string msgs = Task.Run(() => HttpHelp.Post(url, JsonConvert.SerializeObject(xml))).Result;
             string log = WeChatExtensions.ErrorMsg(msgs);
-            Common.WriteLog($"消息发送回执：{log}");
+            Common.WriteLog($"SendMsgToUser->{log}");
             return log;
         }
 

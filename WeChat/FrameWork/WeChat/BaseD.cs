@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FrameWork.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace FrameWork.WeChat
 
         private static string _AccessToken;
 
-
+        #region 获取token
         public static string AccessToken
         {
             get
@@ -45,24 +46,16 @@ namespace FrameWork.WeChat
         {
             string url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appSecret;
             string result = HttpHelp.Get(url);
-            if (result.Contains("errcode")) WeChatExtensions.ErrorMsg(result);
 
-            XDocument xml = JsonConvert.DeserializeXNode(result, "root");
-            XElement root = xml.Root;
-            if (root != null)
+            var data = JsonConvert.DeserializeObject<AccessTokenModel>(result);
+            if (data.Errcode == 0)
             {
-                XElement access_token = root.Element("access_token");
-                if (access_token != null)
-                {
-                    //AccessToken_Time = DateTime.Now;
-                    if (root.Element("expires_in") != null)
-                    {
-                        int Expires_Period = int.Parse(root.Element("expires_in").Value);
-                        AccessToken_Time = DateTime.Now.AddSeconds(Expires_Period);
-                    }
-                    return access_token.Value;
-                }
+                AccessToken_Time = DateTime.Now.AddSeconds(data.Expires_in);
+                return data.Access_Token;
             }
+            else
+                Common.WriteLog($"GetAccess_token->{ErrorCode.ReturnErrorMsg(data.Errcode + "")}");
+
             return null;
         }
 
@@ -74,7 +67,7 @@ namespace FrameWork.WeChat
         {
             if (AccessToken_Time != null)
             {
-                if (DateTime.Now > AccessToken_Time.AddSeconds(-30))
+                if (DateTime.Now > AccessToken_Time)
                 {
                     return true;
                 }
@@ -82,7 +75,7 @@ namespace FrameWork.WeChat
             return false;
         }
 
-
+        #endregion
 
 
         private static List<string> _UserList;
@@ -98,18 +91,12 @@ namespace FrameWork.WeChat
         {
             string url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + BaseD.AccessToken + "&next_openid=";
             string result = HttpHelp.Get(url);
-            if (result.Contains("errcode")) WeChatExtensions.ErrorMsg(result);
 
-            var obj = (Dictionary<string, Object>)new JavaScriptSerializer().DeserializeObject(result);
-            var objs = JsonConvert.DeserializeObject(result);
-            XDocument xml = JsonConvert.DeserializeXNode(result, "root");
-            XElement root = xml.Root;
-            if (root != null)
-            {
-                XElement access_token = root.Element("data");
-                if (access_token != null)
-                    return null;
-            }
+            var data = JsonConvert.DeserializeObject<UserInfoModel>(result);
+            if (data.Errcode == 0)
+                return data.data.openid;
+            else
+                Common.WriteLog($"GetUserList->{ErrorCode.ReturnErrorMsg(data.Errcode + "")}");
             return null;
         }
 

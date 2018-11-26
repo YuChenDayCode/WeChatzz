@@ -50,11 +50,13 @@
     <Compile Include="Common.cs" />
     <Compile Include="HttpHelp.cs" />
     <Compile Include="Model\ErrorModel.cs" />
+    <Compile Include="Model\WechatModel.cs" />
     <Compile Include="Model\XMLModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeChat\BaseD.cs" />
     <Compile Include="Enum\ErrCode.cs" />
     <Compile Include="WeChat\MsgOperate.cs" />
+    <Compile Include="WeChat\TuLing.cs" />
     <Compile Include="WeChat\WeChatExtensions.cs" />
     <Compile Include="WeChat\WxProcess.cs" />
     <Compile Include="WeChat\XmlEX.cs" />

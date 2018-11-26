@@ -16,17 +16,13 @@ namespace WeChat.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            MsgOperate.SendMsgToUser(DateTime.Now.ToString());
             //SendXX(Request.HttpMethod + "-Get\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
-            return null;
             string echoString = Request.QueryString["echoStr"];
             if (!string.IsNullOrEmpty(echoString))
             {
                 Response.Write(echoString);
                 Response.End();
             }
-
-         
 
             return View();
         }
