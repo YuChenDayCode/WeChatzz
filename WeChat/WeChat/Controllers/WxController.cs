@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using WeChat.App_Start;
 
 namespace WeChat.Controllers
 {
@@ -31,13 +32,10 @@ namespace WeChat.Controllers
         [ActionName("Index")]
         public ActionResult IndexPost()
         {
-            Response.Write("success"); Response.End(); //避免三次请求
-            //SendXX(Request.HttpMethod + "-Post\n" + System.Web.HttpContext.Current.Request.UserHostAddress + "\n" + DateTime.Now);
-            XDocument xml = XDocument.Load(Request.InputStream);
+          
+            Stream stream = new MemoryStream(ActionFilter.bytes);
+            XDocument xml = XDocument.Load(stream);
             XMLModel model = XmlEX.ResolveXML(xml);
-            var aaaab = BaseD.UserList;
-            string msgs = xml.ToString();//.Replace("\r\n", "");
-
             try
             {
                 switch (model.MsgType)
@@ -57,7 +55,7 @@ namespace WeChat.Controllers
             }
             catch (Exception ex)
             {
-                string msg = ex.Message + "=>" + ex.InnerException; SendXX(msg);
+                string msg = ex.Message + "=>" + ex.InnerException;
                 SendXX(msg);
             }
             //Stream stream = Request.InputStream;

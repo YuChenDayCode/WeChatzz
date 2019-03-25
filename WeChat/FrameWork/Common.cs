@@ -20,7 +20,8 @@ public class Common
         {
             loglock.EnterWriteLock();
             DateTime dt = DateTime.Now;
-            using (StreamWriter sw = new StreamWriter(@"C:\\wxlog.txt", true))
+            string fileName = $"wxlog-{DateTime.Now.ToString("yyyyMMdd")}.txt";
+            using (StreamWriter sw = new StreamWriter(@"C:\\" + fileName, true))
             {
                 sw.WriteLine($"========{DateTime.Now}===========");
                 if (hh)

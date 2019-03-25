@@ -165,7 +165,7 @@ namespace FrameWork.WeChat
         查询起始值begin不合法 = 9001036
     }
 
-    public enum MsgType
+    public enum MsgType_enum
     {
         [Description("文本")]
         text,

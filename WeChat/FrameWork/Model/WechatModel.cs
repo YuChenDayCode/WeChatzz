@@ -37,9 +37,10 @@ namespace FrameWork.Model
 
         public string Errmsg { get; set; }
     }
-    public class UserInfoModel: ErrModel
+
+    public class UserInfoModel : ErrModel
     {
-       public int total { get; set; }
+        public int total { get; set; }
 
         public int count { get; set; }
 
@@ -51,6 +52,30 @@ namespace FrameWork.Model
     public class user
     {
         public List<string> openid { get; set; }
+    }
+
+    public class DetailUserInfo
+    {
+        public List<user_info_list> user_info_list { get; set; }
+    }
+    public class user_info_list
+    {
+        public string subscribe { get; set; }
+        public string openid { get; set; }
+        public string nickname { get; set; }
+        public string sex { get; set; }
+        public string language { get; set; }
+        public string city { get; set; }
+        public string province { get; set; }
+        public string country { get; set; }
+        public string headimgurl { get; set; }
+        public string subscribe_time { get; set; }
+        public string remark { get; set; }
+        public string groupid { get; set; }
+        public List<string> tagid_list { get; set; }
+        public string subscribe_scene { get; set; }
+        public string qr_scene { get; set; }
+        public string qr_scene_str { get; set; }
     }
 
 }

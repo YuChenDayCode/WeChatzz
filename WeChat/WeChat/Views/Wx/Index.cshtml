@@ -13,13 +13,17 @@
 
     <script type="text/javascript">
         $(function () {
-            $.ajax('/Wx/One')
-                .done(function (data) {
-                    console.info(data);
-                })
-            .fail(function (err) {
-                console.log(err);
-            });
+            //$.ajax('/Wx/One')
+            //    .done(function (data) {
+            //        console.info(data);
+            //    })
+            //.fail(function (err) {
+            //    console.log(err);
+            //});
+
+            $.post('/Wx/One', {}, function (data) {
+                console.log(data)
+            })
         })
     </script>
 </head>

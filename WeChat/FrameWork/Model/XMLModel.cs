@@ -40,9 +40,11 @@ namespace FrameWork.Model
 
         public override string ToString()
         {
+            var from_user_info = BaseD.UserList?.Where(t => t.openid == this.FromUserName)?.FirstOrDefault();
+            var to_user_info = BaseD.UserList?.Where(t => t.openid == this.ToUserName)?.FirstOrDefault();
             if (this.MsgType == "event" && this.Event == "LOCATION")
                 return $"{this.Latitude},{this.Longitude}";
-            return $"{this.CreateTime }\n 接收者：{this.ToUserName} \n 消息类型：{   Enum.GetName(typeof(MsgType), this.MsgType) } \n 消息内容：{ this.Content}";
+            return $"{this.CreateTime }\n 发送者：{from_user_info?.nickname ?? "公众号" } \n 接收者：{to_user_info?.nickname ?? "公众号"} \n 消息类型：{   this.MsgType } \n 消息内容：{ this.Content}";
         }
 
 

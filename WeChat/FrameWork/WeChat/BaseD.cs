@@ -1,9 +1,11 @@
 ﻿using FrameWork.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Web.Script.Serialization;
 using System.Xml.Linq;
 
@@ -54,7 +56,7 @@ namespace FrameWork.WeChat
                 return data.Access_Token;
             }
             else
-                Common.WriteLog($"GetAccess_token->{ErrorCode.ReturnErrorMsg(data.Errcode + "")}");
+                Common.WriteLog($"GetAccess_token -> {ErrorCode.ReturnErrorMsg(data.Errcode + "")}");
 
             return null;
         }
@@ -78,27 +80,41 @@ namespace FrameWork.WeChat
         #endregion
 
 
-        private static List<string> _UserList;
-        public static List<string> UserList
+        private static List<user_info_list> _UserList;
+        #region 获取关注用户
+        public static List<user_info_list> UserList
         {
             get
             {
-                _UserList = GetUserList();
+                if (_UserList == null || _UserList?.Count() <= 0)
+                    _UserList = GetUserList();
                 return _UserList;
             }
         }
-        public static List<string> GetUserList()
+        public static List<user_info_list> GetUserList()
         {
-            string url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + BaseD.AccessToken + "&next_openid=";
+            string url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + AccessToken + "&next_openid=";
             string result = HttpHelp.Get(url);
+            JObject jobject = JObject.Parse(result);
+            //var data = JsonConvert.DeserializeObject<UserInfoModel>(result);
+            if (!jobject.ContainsKey("errcode"))
+            {
+                var openid_list = jobject["data"]["openid"].ToList();
+                var para = new { user_list = new ArrayList() };
+                openid_list.ForEach(f => { para.user_list.Add(new { openid = f.ToString() }); });
 
-            var data = JsonConvert.DeserializeObject<UserInfoModel>(result);
-            if (data.Errcode == 0)
-                return data.data.openid;
+                url = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + AccessToken; //根据openID获取详细信息
+                result = HttpHelp.Post(url, JsonConvert.SerializeObject(para));
+                DetailUserInfo userinfo = JsonConvert.DeserializeObject<DetailUserInfo>(result);
+                Common.WriteLog($"GetUserList -> 获取用户详情成功！总关注用户 {openid_list.Count()} ,获取详情 {userinfo.user_info_list.Count()} ");
+                return userinfo.user_info_list;
+            }
             else
-                Common.WriteLog($"GetUserList->{ErrorCode.ReturnErrorMsg(data.Errcode + "")}");
+                Common.WriteLog($"GetUserList -> {ErrorCode.ReturnErrorMsg(jobject["errcode"] + "," + ErrorCode.ReturnErrorMsg(jobject["errcode"].ToString()))}");
             return null;
         }
+
+        #endregion
 
 
     }
