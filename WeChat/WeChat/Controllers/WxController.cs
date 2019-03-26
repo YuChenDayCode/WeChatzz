@@ -1,7 +1,10 @@
 ﻿using FrameWork;
 using FrameWork.Model;
+using FrameWork.Redis;
 using FrameWork.WeChat;
+using ServiceStack.Redis;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
@@ -32,7 +35,6 @@ namespace WeChat.Controllers
         [ActionName("Index")]
         public ActionResult IndexPost()
         {
-          
             Stream stream = new MemoryStream(ActionFilter.bytes);
             XDocument xml = XDocument.Load(stream);
             XMLModel model = XmlEX.ResolveXML(xml);
@@ -72,13 +74,28 @@ namespace WeChat.Controllers
         public JsonResult One()
         {
             string msg = BaseD.AccessToken + "\n";
-            //string aa = AccessTokenEx.AccessToken;
-            // msg = MsgOperate.SendMsgToUser("oYvF3wfb3OuIeRJn-WenX1yy-VZ8", "text", "Yes!");
+
+
+            //RedisUtil.Instance.Set<string>("ddd", "ccc", DateTime.Now.AddMinutes(4));
+            //RedisUtil.Instance.Set<string>("ddd", "cc1c");
+
+            //List<KeyValuePair<string, string>> KeyValuePair = new List<KeyValuePair<string, string>>();
+            //KeyValuePair.Add(new KeyValuePair<string, string>("121", "111"));
+            //KeyValuePair.Add(new KeyValuePair<string, string>("`231`", "2222"));
+            //RedisUtil.Instance.AddHashRange("hashs11et", KeyValuePair, DateTime.Now.AddMinutes(5));
+
+            //RedisUtil.Instance.HashSet("hashs11et", "22", "2323");
+            // aaabbbcc = RedisUtil.Instance.GetAllItemsFromList("us");
 
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+        public class Entity
+        {
+            public int ids { get; set; }
 
+            public string str { get; set; }
+        }
 
 
         public string SendXX(string msg)
