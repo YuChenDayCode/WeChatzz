@@ -1,4 +1,5 @@
 ﻿using FrameWork.Model;
+using FrameWork.Redis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -110,7 +111,12 @@ namespace FrameWork.WeChat
                 return userinfo.user_info_list;
             }
             else
+            {
                 Common.WriteLog($"GetUserList -> {ErrorCode.ReturnErrorMsg(jobject["errcode"] + "," + ErrorCode.ReturnErrorMsg(jobject["errcode"].ToString()))}");
+                //通过redis读取已有的
+                //RedisUtil.Instance.GetHashValues
+            }
+
             return null;
         }
 

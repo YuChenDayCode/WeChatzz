@@ -33,8 +33,8 @@ namespace FrameWork.Redis
         private static void CreatePoolManager()
         {
             poolrc = new PooledRedisClientManager(
-                new List<string> { "123456abcdef@47.99.211.28:6379" },
-                new List<string> { "123456abcdef@47.99.211.28:6379" },
+                new List<string> { "" },
+                new List<string> { "" },
                 new RedisClientManagerConfig
                 {
                     MaxReadPoolSize = 50,//读

@@ -296,6 +296,32 @@ namespace FrameWork.Redis
         }
 
         /// <summary>
+        /// 根据hashid获取【所有value】
+        /// </summary>
+        /// <param name="hashid"></param>
+        /// <returns></returns>
+        public Dictionary<string, string> GetHashAll(string hashid)
+        {
+            try
+            {
+                using (var redis = RedisManager.GetClient())
+                {
+                    byte[][] bbyte = redis.HGetAll(hashid);
+                    Dictionary<string, string> dic = new Dictionary<string, string>();
+                    for (int i = 0; i < bbyte.Length; i += 2)
+                    {
+                        string key = bbyte[i].FromUtf8Bytes();
+                        string value = bbyte[i + 1].FromUtf8Bytes();
+                        dic.Add(key, value);
+                    }
+                    return dic;
+
+                }
+            }
+            catch (Exception ex) { throw new Exception("GetHashAll() =>> " + ex.Message); }
+        }
+
+        /// <summary>
         /// 获取hashid下的所有数量
         /// </summary>
         /// <param name="hashid"></param>

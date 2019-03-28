@@ -79,11 +79,13 @@ namespace WeChat.Controllers
             //RedisUtil.Instance.Set<string>("ddd", "ccc", DateTime.Now.AddMinutes(4));
             //RedisUtil.Instance.Set<string>("ddd", "cc1c");
 
-            //List<KeyValuePair<string, string>> KeyValuePair = new List<KeyValuePair<string, string>>();
-            //KeyValuePair.Add(new KeyValuePair<string, string>("121", "111"));
-            //KeyValuePair.Add(new KeyValuePair<string, string>("`231`", "2222"));
-            //RedisUtil.Instance.AddHashRange("hashs11et", KeyValuePair, DateTime.Now.AddMinutes(5));
+            List<KeyValuePair<string, string>> KeyValuePair = new List<KeyValuePair<string, string>>();
+            KeyValuePair.Add(new KeyValuePair<string, string>("1", "1111"));
+            KeyValuePair.Add(new KeyValuePair<string, string>("2", "2222"));
+            RedisUtil.Instance.AddHashRange("hashlist", KeyValuePair);
 
+
+            RedisUtil.Instance.GetHashAll("hashlist");
             //RedisUtil.Instance.HashSet("hashs11et", "22", "2323");
             // aaabbbcc = RedisUtil.Instance.GetAllItemsFromList("us");
 
