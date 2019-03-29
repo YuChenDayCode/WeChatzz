@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Web.Mvc;
+using System.Xml;
 using System.Xml.Linq;
 using WeChat.App_Start;
 
@@ -40,34 +41,31 @@ namespace WeChat.Controllers
             XMLModel model = XmlEX.ResolveXML(xml);
             try
             {
+                string msg;//被动回复
                 switch (model.MsgType)
                 {
-                    case "event":
-                        //SendXX(msgs);
-                        break;
                     case "text":
-                        new WxProcess().TxtProcess(model);
+                        msg = new WxProcess().TxtProcess(model);
+                        Response.Write(msg);
+                        break;
+
+                    case "event":
+                        msg = new WxProcess().WatchEvent(model);
+                        Response.Write(msg);
                         break;
 
                     default:
-
+                        Response.Write("success");
                         break;
 
                 }
+                Response.End();
             }
             catch (Exception ex)
             {
                 string msg = ex.Message + "=>" + ex.InnerException;
-                SendXX(msg);
+                Common.WriteLog(msg);
             }
-            //Stream stream = Request.InputStream;
-            //Byte[] postBytes = new Byte[stream.Length];
-            //stream.Read(postBytes, 0, (Int32)stream.Length);
-            //string postString = Encoding.UTF8.GetString(postBytes);
-            //if (postString.Contains("[text]"))
-            //{
-            //    SendXX("发送内容：" + model.ToString());
-            //}
             return View();
         }
 
@@ -75,35 +73,21 @@ namespace WeChat.Controllers
         {
             string msg = BaseD.AccessToken + "\n";
 
-
             //RedisUtil.Instance.Set<string>("ddd", "ccc", DateTime.Now.AddMinutes(4));
             //RedisUtil.Instance.Set<string>("ddd", "cc1c");
 
-            List<KeyValuePair<string, string>> KeyValuePair = new List<KeyValuePair<string, string>>();
-            KeyValuePair.Add(new KeyValuePair<string, string>("1", "1111"));
-            KeyValuePair.Add(new KeyValuePair<string, string>("2", "2222"));
-            RedisUtil.Instance.AddHashRange("hashlist", KeyValuePair);
+            //List<KeyValuePair<string, string>> KeyValuePair = new List<KeyValuePair<string, string>>();
+            //KeyValuePair.Add(new KeyValuePair<string, string>("1", "1111"));
+            //KeyValuePair.Add(new KeyValuePair<string, string>("2", "2222"));
+            //RedisUtil.Instance.AddHashRange("hashlist", KeyValuePair);
 
-
-            RedisUtil.Instance.GetHashAll("hashlist");
+            //RedisUtil.Instance.GetHashAll("hashlist");
             //RedisUtil.Instance.HashSet("hashs11et", "22", "2323");
             // aaabbbcc = RedisUtil.Instance.GetAllItemsFromList("us");
 
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
-        public class Entity
-        {
-            public int ids { get; set; }
-
-            public string str { get; set; }
-        }
-
-
-        public string SendXX(string msg)
-        {
-            return MsgOperate.SendMsgToUser(msg);
-        }
 
     }
 }

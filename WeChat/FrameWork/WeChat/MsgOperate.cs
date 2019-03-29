@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FrameWork.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,26 @@ namespace FrameWork.WeChat
     public class MsgOperate
     {
         /// <summary>
+        /// 被动回复
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="user"></param>
+        /// <param name="msgType"></param>
+        /// <returns></returns>
+        public static string PassiveRecovery(string msg, string FromUserName, string user = "opcKtv_JgQYprmtuuDik7O5Xrz54", string msgType = "text")
+        {
+            Passive Reply = new Passive { Content =msg, FromUserName = FromUserName, ToUserName = user };
+            return Reply.ToString();
+        }
+
+        /// <summary>
         /// 发送消息
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="user"></param>
         /// <param name="msgType"></param>
         /// <returns></returns>
-        public static string SendMsgToUser(string msg, string user = "oYvF3wfb3OuIeRJn-WenX1yy-VZ8", string msgType = "text")
+        public static string SendMsgToUser(string msg, string user = "opcKtv_JgQYprmtuuDik7O5Xrz54", string msgType = "text")
         {
             string url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + BaseD.AccessToken;
             object xml = new { touser = user, msgtype = msgType, text = new { content = msg } };
@@ -28,6 +42,7 @@ namespace FrameWork.WeChat
             var user_info = BaseD.UserList?.Where(t => t.openid == user)?.FirstOrDefault();
             if (user_info != null)
                 postlog.Replace(user_info.openid, user_info.nickname);
+
             Common.WriteLog($"SendMsgToUser -> \r\n Para = {postlog} \r\n Result={log}");
             return log;
         }

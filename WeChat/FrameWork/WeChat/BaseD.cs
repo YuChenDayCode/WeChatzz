@@ -47,6 +47,10 @@ namespace FrameWork.WeChat
         /// <returns></returns>
         public static string GetAccess_token()
         {
+            string token = RedisUtil.Instance.Get<string>("token");
+            if (!string.IsNullOrEmpty(token)) return token;
+
+
             string url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appSecret;
             string result = HttpHelp.Get(url);
 
@@ -54,12 +58,15 @@ namespace FrameWork.WeChat
             if (data.Errcode == 0)
             {
                 AccessToken_Time = DateTime.Now.AddSeconds(data.Expires_in);
+                RedisUtil.Instance.Set<string>("token", data.Access_Token, DateTime.Now.AddSeconds(7200));
                 return data.Access_Token;
             }
             else
-                Common.WriteLog($"GetAccess_token -> {ErrorCode.ReturnErrorMsg(data.Errcode + "")}");
-
-            return null;
+            {
+                string msg = ErrorCode.ReturnErrorMsg(data.Errcode + "") + "， " + data.Errmsg;
+                Common.WriteLog($"GetAccess_token -> { msg }");
+                throw new Exception(msg); //中断
+            }
         }
 
         /// <summary>
@@ -94,30 +101,43 @@ namespace FrameWork.WeChat
         }
         public static List<user_info_list> GetUserList()
         {
-            string url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + AccessToken + "&next_openid=";
-            string result = HttpHelp.Get(url);
-            JObject jobject = JObject.Parse(result);
-            //var data = JsonConvert.DeserializeObject<UserInfoModel>(result);
-            if (!jobject.ContainsKey("errcode"))
+            List<user_info_list> list = new List<user_info_list>();
+            var dic = RedisUtil.Instance.GetHashAll("WatchUser");
+            dic.ForEach((key, value) =>
             {
-                var openid_list = jobject["data"]["openid"].ToList();
-                var para = new { user_list = new ArrayList() };
-                openid_list.ForEach(f => { para.user_list.Add(new { openid = f.ToString() }); });
+                JObject detail = JObject.Parse(value);
+                list.Add(new user_info_list
+                {
+                    openid = key,
+                    nickname = detail["NickName"].ToString(),
+                    subscribe_time = detail["WatchTime"].ToString()
+                });
+            });
+            Common.WriteLog($"GetUserList -> 获取用户详情成功！总关注用户 {list.Count()} ");
+            return list;
+            ////直接从缓存中取，没有api权限
+            //string url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + AccessToken + "&next_openid=";
+            //string result = HttpHelp.Get(url);
+            //JObject jobject = JObject.Parse(result);
+            ////var data = JsonConvert.DeserializeObject<UserInfoModel>(result);
+            //if (!jobject.ContainsKey("errcode"))
+            //{
+            //    var openid_list = jobject["data"]["openid"].ToList();
+            //    var para = new { user_list = new ArrayList() };
+            //    openid_list.ForEach(f => { para.user_list.Add(new { openid = f.ToString() }); });
 
-                url = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + AccessToken; //根据openID获取详细信息
-                result = HttpHelp.Post(url, JsonConvert.SerializeObject(para));
-                DetailUserInfo userinfo = JsonConvert.DeserializeObject<DetailUserInfo>(result);
-                Common.WriteLog($"GetUserList -> 获取用户详情成功！总关注用户 {openid_list.Count()} ,获取详情 {userinfo.user_info_list.Count()} ");
-                return userinfo.user_info_list;
-            }
-            else
-            {
-                Common.WriteLog($"GetUserList -> {ErrorCode.ReturnErrorMsg(jobject["errcode"] + "," + ErrorCode.ReturnErrorMsg(jobject["errcode"].ToString()))}");
-                //通过redis读取已有的
-                //RedisUtil.Instance.GetHashValues
-            }
+            //    url = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + AccessToken; //根据openID获取详细信息
+            //    result = HttpHelp.Post(url, JsonConvert.SerializeObject(para));
+            //    DetailUserInfo userinfo = JsonConvert.DeserializeObject<DetailUserInfo>(result);
+            //    Common.WriteLog($"GetUserList -> 获取用户详情成功！总关注用户 {openid_list.Count()} ,获取详情 {userinfo.user_info_list.Count()} ");
+            //    return userinfo.user_info_list;
+            //}
+            //else
+            //{
+            //    Common.WriteLog($"GetUserList -> {ErrorCode.ReturnErrorMsg(jobject["errcode"] + "," + ErrorCode.ReturnErrorMsg(jobject["errcode"].ToString()))}");
+            //    //通过redis读取已有的
 
-            return null;
+            //}
         }
 
         #endregion

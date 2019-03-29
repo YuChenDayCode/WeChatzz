@@ -249,6 +249,7 @@ namespace FrameWork.WeChat
                 case "40132": return "微信号不合法";
                 case "40137": return "不支持的图片格式";
                 case "40155": return "请勿添加其他公众号的主页链接";
+                case "40164": return "获取Token失败，请检查IP是否限制";
                 case "41001": return "缺少 access_token 参数";
                 case "41002": return "缺少 appid 参数";
                 case "41003": return "缺少 refresh_token 参数";

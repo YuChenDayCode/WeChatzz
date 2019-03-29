@@ -1,4 +1,6 @@
 ﻿using FrameWork.Model;
+using FrameWork.Redis;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +14,8 @@ namespace FrameWork.WeChat
 {
     public class WxProcess
     {
-        public void TxtProcess(XMLModel model)
+        #region 文本处理
+        public string TxtProcess(XMLModel model)
         {
             string msg = "";
 
@@ -25,7 +28,8 @@ namespace FrameWork.WeChat
             }
             else
                 msg = TuLing.tuling_reply(model.Content);
-            MsgOperate.SendMsgToUser(msg, model.FromUserName);
+
+            return MsgOperate.PassiveRecovery(msg, model.ToUserName, model.FromUserName);
         }
 
 
@@ -42,6 +46,29 @@ namespace FrameWork.WeChat
             return result;
         }
 
+
+        #endregion
+
+
+        public string WatchEvent(XMLModel model)
+        {
+            switch (model.Event)
+            {
+                case "subscribe":
+                    RedisUtil.Instance.HashSet("WatchUser", model.FromUserName, JsonConvert.SerializeObject(new { NickName = "", WatchTime = model.CreateTime }));
+                    BaseD.UserList.Clear();
+                    Common.WriteLog($"{model.FromUserName} 关注了你");
+                    Passive Reply = new Passive { Content = "您好！欢迎关注,有什么需求可以留言", FromUserName = model.ToUserName, ToUserName = model.FromUserName };
+                    return Reply.ToString();
+                case "unsubscribe":
+                    RedisUtil.Instance.RemoveHashItem("WatchUser", model.FromUserName);
+                    BaseD.UserList.Clear();
+                    Common.WriteLog($"{model.FromUserName} 取消关注了你");
+                    return "";
+                default:
+                    return "";
+            }
+        }
 
     }
 }

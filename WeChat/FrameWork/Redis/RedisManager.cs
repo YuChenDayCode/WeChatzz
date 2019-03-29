@@ -1,6 +1,7 @@
 ﻿using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace FrameWork.Redis
 {
     public class RedisManager
     {
+        private static string WriteConfig = ConfigurationManager.AppSettings["RedisConfigWrite"];
+        private static string ReadConfig = ConfigurationManager.AppSettings["RedisConfigRead"];
         private static PooledRedisClientManager poolrc; //连接类实例
         private static readonly object objlock = new object();//锁
 
@@ -33,8 +36,8 @@ namespace FrameWork.Redis
         private static void CreatePoolManager()
         {
             poolrc = new PooledRedisClientManager(
-                new List<string> { "" },
-                new List<string> { "" },
+                new List<string> { WriteConfig },
+                new List<string> { ReadConfig },
                 new RedisClientManagerConfig
                 {
                     MaxReadPoolSize = 50,//读

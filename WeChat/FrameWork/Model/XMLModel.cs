@@ -47,15 +47,23 @@ namespace FrameWork.Model
             return $"{this.CreateTime }\n 发送者：{from_user_info?.nickname ?? "公众号" } \n 接收者：{to_user_info?.nickname ?? "公众号"} \n 消息类型：{   this.MsgType } \n 消息内容：{ this.Content}";
         }
 
-
-        //        <xml><ToUserName><![CDATA[gh_1e97e77b3af7]]></ToUserName>
-        //<FromUserName><![CDATA[oYvF3wfb3OuIeRJn-WenX1yy-VZ8]]></FromUserName>
-        //<CreateTime>1525885960</CreateTime>
-        //<MsgType><![CDATA[event]]></MsgType>
-        //<Event><![CDATA[LOCATION]]></Event>
-        //<Latitude>30.179899</Latitude>
-        //<Longitude>120.190598</Longitude>
-        //<Precision>30.000000</Precision>
-        //</xml>
     }
+
+    public class Passive
+    {
+        public string ToUserName { get; set; }
+        public string FromUserName { get; set; }
+        public string CreateTime { get; set; }
+        public string MsgType { get; set; }
+        public string Content { get; set; }
+
+        public override string ToString()
+        {
+            int CreateTime = (int)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalSeconds;
+            string recovery = $"<xml><ToUserName><![CDATA[{this.ToUserName}]]></ToUserName><FromUserName><![CDATA[{this.FromUserName}]]></FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[{this.Content}]]></Content></xml>";
+            return recovery;
+        }
+    }
+
+
 }
