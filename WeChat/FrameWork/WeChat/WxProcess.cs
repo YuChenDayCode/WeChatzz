@@ -29,7 +29,8 @@ namespace FrameWork.WeChat
             else
                 msg = TuLing.tuling_reply(model.Content);
 
-            return MsgOperate.PassiveRecovery(msg, model.ToUserName, model.FromUserName);
+            model.Content = msg;
+            return MsgOperate.PassiveRecovery(model);
         }
 
 

@@ -17,9 +17,9 @@ namespace FrameWork.WeChat
         /// <param name="user"></param>
         /// <param name="msgType"></param>
         /// <returns></returns>
-        public static string PassiveRecovery(string msg, string FromUserName, string user = "opcKtv_JgQYprmtuuDik7O5Xrz54", string msgType = "text")
+        public static string PassiveRecovery(XMLModel model)
         {
-            Passive Reply = new Passive { Content =msg, FromUserName = FromUserName, ToUserName = user };
+            Passive Reply = new Passive { Content = model.Content, FromUserName = model.ToUserName, ToUserName = model.FromUserName };
             return Reply.ToString();
         }
 

@@ -23,7 +23,6 @@ namespace WeChat.App_Start
         {
             var Request = filterContext.RequestContext.HttpContext.Request;
             var Response = filterContext.RequestContext.HttpContext.Response;
-            //Response.Write("success"); Response.End();//避免三次请求
 
             Stream stream = Request.InputStream;
             XDocument xml = new XDocument();

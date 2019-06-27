@@ -136,7 +136,7 @@ namespace FrameWork.Redis
         }
 
         /// <summary>
-        /// 根据key清空list
+        /// 根据key清空list ！！只有一条记录的时候无法删除。。 bug
         /// </summary>
         /// <param name="key"></param>
         public void ClearList(string key)

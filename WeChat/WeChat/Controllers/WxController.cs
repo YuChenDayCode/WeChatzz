@@ -71,8 +71,13 @@ namespace WeChat.Controllers
 
         public JsonResult One()
         {
+            RedisUtil.Instance.AddListRange("testlist", new List<string>() { "1" });
+            var list = RedisUtil.Instance.GetListAll("testlist");
+            RedisUtil.Instance.ClearList("testlist");
+            var list1 = RedisUtil.Instance.GetListAll("testlist");
             string msg = BaseD.AccessToken + "\n";
 
+            
             //RedisUtil.Instance.Set<string>("ddd", "ccc", DateTime.Now.AddMinutes(4));
             //RedisUtil.Instance.Set<string>("ddd", "cc1c");
 
